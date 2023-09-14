@@ -1,0 +1,43 @@
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+
+public class asterfall : MonoBehaviour {
+
+	public Text Score;
+	private AudioSource enemyAudio;
+    private float speed = 3;
+
+
+    void Start () {
+		enemyAudio = GetComponent<AudioSource>();
+	}
+
+	float HP = 12;
+	
+	void OnTriggerEnter(Collider collider)
+	{
+		if (collider.gameObject.CompareTag("PlayerBolt"))
+		{
+            HP -= Player.attack;
+            if (HP == 0)
+			{
+				
+				Player.score++;
+                enemyAudio.Play();
+                Destroy(gameObject, 0.6f);
+                
+            }
+		}
+	}
+
+	void Update () {
+        transform.Translate(Vector3.back * speed * Time.deltaTime);
+		Destroy(gameObject,6f);
+        if (HP <= 0)
+        {
+            transform.Translate(Vector3.down * 1f * Time.deltaTime);
+            transform.Rotate(new Vector3(0, 12, 0));
+        }
+    }
+}
